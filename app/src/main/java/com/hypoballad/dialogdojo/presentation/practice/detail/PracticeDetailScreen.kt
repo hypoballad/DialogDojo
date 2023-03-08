@@ -7,9 +7,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Cyclone
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.SettingsVoice
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,7 +26,6 @@ import com.hypoballad.dialogdojo.ui.theme.DialogDojoTheme
 @Composable
 fun PracticeDetailScreen() {
     Column (modifier = Modifier.fillMaxSize())  {
-
         Column(
             Modifier.weight(1f),
             verticalArrangement = Arrangement.Bottom
@@ -35,22 +37,46 @@ fun PracticeDetailScreen() {
                     vertical = 8.dp,
                     horizontal = 8.dp)
             ) {
-                itemsIndexed(dummyDialogs.subList(0,4)) { index, dialog ->
+                itemsIndexed(dummyDialogs) { index, dialog ->
                     DialogCard(item = dialog, isEvenRow = index % 2 == 0)
                 }
             }
         }
 
-        TextField(
-            value = "Hello",
-            onValueChange = { /*TODO*/ },
-            label = { Text("Label") },
+        Row(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
-                .fillMaxWidth()
-        )
-    }
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                value = "Hello",
+                onValueChange = { /*TODO*/ },
+                // label = { Text("Label") },
+                modifier = Modifier.weight(1f)
+            )
 
+            IconButton(
+                onClick = { /* TODO */ },
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Icon(Icons.Default.Send, contentDescription = "Send")
+            }
+        }
+
+
+        // add mic button bottom center of the screen
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            FloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(Icons.Default.SettingsVoice, contentDescription = "Call")
+            }
+        }
+    }
 }
 
 @Composable
@@ -59,7 +85,7 @@ fun DialogCard(item: Dialog, isEvenRow: Boolean = false) {
     Row(modifier = Modifier.padding(8.dp)) {
         // Add an icon to the card use
         if (isEvenRow) {
-            DialogIcon(icon = Icons.Filled.Person)
+            DialogIcon(icon = Icons.Filled.Cyclone)
         } else {
             DialogIcon(icon = Icons.Outlined.Person)
         }
