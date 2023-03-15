@@ -1,5 +1,6 @@
 package com.hypoballad.dialogdojo.presentation.practice.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -19,21 +20,23 @@ import com.hypoballad.dialogdojo.data.local.Practice
 import com.hypoballad.dialogdojo.data.local.dummyPractices
 
 @Composable
-fun PracticeHistoryScreen() {
+fun PracticeHistoryScreen(onItemClick: (id: Int) -> Unit = { }) {
     LazyColumn(
         contentPadding = PaddingValues(
             vertical = 8.dp,
             horizontal = 8.dp)) {
         itemsIndexed(dummyPractices) { index, practice ->
-            PracticeHistoryItem(practice, isEvenRow = index % 2 == 0)
+            PracticeHistoryItem(practice, isEvenRow = index % 2 == 0, onItemClick = onItemClick )
         }
     }
 }
 
 @Composable
-fun PracticeHistoryItem(item: Practice, isEvenRow: Boolean = false) {
+fun PracticeHistoryItem(item: Practice, isEvenRow: Boolean = false, onItemClick: (id: Int) -> Unit) {
     Card(elevation = 4.dp,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable { onItemClick(item.id) }
     ) {
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(8.dp)) {

@@ -1,5 +1,7 @@
 package com.hypoballad.dialogdojo.data.di
 
+import com.hypoballad.dialogdojo.BuildConfig
+import com.hypoballad.dialogdojo.data.remote.ChatGPTAPIService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ChatGPTModule {
     private const val BASE_URL = "https://api.openai.com/v1/"
-    private val token = "your_token"
+    private val token = BuildConfig.chatGPTToken
 
     private var client: OkHttpClient = OkHttpClient.Builder().addInterceptor { chain ->
         val newRequest: Request =
@@ -25,6 +27,6 @@ object ChatGPTModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): ChatGPTModule = Retrofit.Builder().client(client).baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create()).build().create(ChatGPTModule::class.java)
+    fun provideApiService(): ChatGPTAPIService = Retrofit.Builder().client(client).baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create()).build().create(ChatGPTAPIService::class.java)
 }

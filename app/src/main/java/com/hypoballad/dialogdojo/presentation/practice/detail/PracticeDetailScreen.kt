@@ -7,16 +7,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cyclone
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.SettingsVoice
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Cyclone
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hypoballad.dialogdojo.data.local.Dialog
@@ -49,9 +52,10 @@ fun PracticeDetailScreen() {
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            var textFieldValue = remember { mutableStateOf(TextFieldValue()) }
             TextField(
-                value = "Hello",
-                onValueChange = { /*TODO*/ },
+                value = textFieldValue.value,
+                onValueChange = {textFieldValue.value = it },
                 // label = { Text("Label") },
                 modifier = Modifier.weight(1f)
             )
@@ -82,12 +86,16 @@ fun PracticeDetailScreen() {
 @Composable
 fun DialogCard(item: Dialog, isEvenRow: Boolean = false) {
     // Add padding around our card
-    Row(modifier = Modifier.padding(8.dp)) {
+    Row(modifier = Modifier.padding(8.dp)
+        .fillMaxWidth()
+        .wrapContentWidth(if (isEvenRow) Alignment.End else Alignment.Start),
+        horizontalArrangement = if (isEvenRow) Arrangement.End else Arrangement.Start
+    ) {
         // Add an icon to the card use
         if (isEvenRow) {
-            DialogIcon(icon = Icons.Filled.Cyclone)
+            DialogIcon(icon = Icons.Filled.Person)
         } else {
-            DialogIcon(icon = Icons.Outlined.Person)
+            DialogIcon(icon = Icons.Outlined.Cyclone)
         }
 
         // Add some space between the image and the column
